@@ -1,0 +1,43 @@
+SOLVER:
+  LR: 1.0e-4
+  BATCH_SIZE: 2
+  WEIGHT_DECAY: 1.0e-4
+  EPOCHS: 100
+  LR_DROP_EPOCHS: [60, 90]    # Epoch after which to drop LR
+  LR_DROP_GAMMA: 0.1          # Factor to drop LR by
+  LR_SCHEDULER: "multisteplr" # multisteplr, cosineannealinglr
+  MIN_LR: 1.0e-7
+  WARMUP_LR: 1.0e-6
+  WARMUP_EPOCHS: 0
+  CLIP_MAX_NORM: 0.1
+  SEED: 42
+  START_EPOCH : 0
+LOSS:
+  MATCHER:
+    SET_COST_BBOX: 5
+    SET_COST_GIOU: 2
+    SET_COST_CLASS: 5
+    SET_COST_CONF: 10
+  COEFFS:
+    BBOX_LOSS_COEF: 5
+    GIOU_LOSS_COEF: 2
+    CLASS_LOSS_COEF: 5
+    CONF_LOSS_COEF: 10
+  COEF_CE_LOSS_OBJ: 0.1
+DISTRIBUTED: true
+RUNTIME:
+  DEVICE: "cuda"
+  PRETRAINED: ""
+  RESUME: ""                # Path to checkpoint file to resume training
+  EVAL: false               # run evaluation only option
+  NUM_WORKERS: 2
+  OUTPUT_DIR: ""            # Global directory for training; checkpoint directory for evaluation
+  GLOBAL_OUTPUT_DIR: ""     # Optional global directory to save all evaluation metrics
+  OUTPUT_FILE: "exp_config.yaml"
+EVAL:
+  USE_NMS_FILTER: true 
+  THRES_NMS: 0.7
+  NMS_ALPHA: 1.0
+  NMS_BETA: 0.5
+  TEST_SCORE_THRESH: 0.01
+  JSON_FILE: "results.json" # Output JSON file for evaluation

@@ -1,0 +1,52 @@
+SOLVER:
+  EPOCHS: 100
+  LR_DROP_EPOCHS: [60, 90]    # Epoch after which to drop LR
+  SAVE_START_EPOCH: 80
+  SAVE_EVERY_EPOCHS: 5
+MODEL:
+  PIXEL_MEAN: [123.675, 116.280, 103.530]
+  PIXEL_STD: [58.395, 57.120, 57.375]       # for d2 only
+  POSITION_EMBEDDING: "sine"                # Position embedding type (sine, learned)
+  NAME: "SL-HOI"                            # Model name
+  BACKBONE:
+    NAME: "DINOv3"
+    NUM_FEATURE_LEVELS: 1
+  TRANSFORMER:
+    DIM_FEEDFORWARD: 2048
+    NHEADS: 8
+    DROPOUT: 0.1
+    ACTIVATION: "relu"
+    ENC_LAYERS: 2
+    INS_DEC_LAYERS: 3
+    NUM_QUERIES: 64           # try 32 to 48 for better performance
+  HOI:
+    HIDDEN_DIM: 256
+    DEEP_SUPERVISION: true
+  DINO:
+    WITH_DINO_LABEL: true
+    WITH_OBJ_DINO_LABEL: true 
+    DINOTXT_WEIGHTS: ""
+    BACKBONE_WEIGHTS: ""
+    BPE_PATH_OR_URL: ""
+    FREEZE: true
+    EMBED_DIM: 1024
+    LAYERS_TO_USE: []
+    N_WINDOWS_SQRT: 2
+    N_STORAGE_TOKENS: 4
+    PATCH_SIZE: 16
+    TOP_K_PATCHES: 32
+INPUT: # SWIG specific parameters
+  FORMAT: "RGB"
+  NUM_OBJ_CLASSES: 1000
+  SUBJECT_CATEGORY_ID: 0
+  DATASET_FILE: "swig"  # Dataset name (e.g., hico, swig)
+  PATH: ""
+  REPEAT_FACTOR_SAMPLING: false
+  EVAL_SIZE: 512        # evaluation image size, set to 512 for better performance
+ZERO_SHOT:
+  CLASSIFIER:
+    TRAIN: ""
+    EVAL: ""
+EVAL:
+  TEST_SCORE_THRESH: 1e-4
+  JSON_FILE: "swig_results.json" # Output JSON file for evaluation

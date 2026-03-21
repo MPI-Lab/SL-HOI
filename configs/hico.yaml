@@ -1,0 +1,63 @@
+SOLVER:
+  EPOCHS: 60
+  LR_DROP_EPOCHS: [40]    # Epoch after which to drop LR
+  SAVE_START_EPOCH: 40
+  SAVE_EVERY_EPOCHS: 2
+LOSS:
+  MATCHER:
+    SET_COST_BBOX: 2.5 
+    SET_COST_GIOU: 1.0  
+    SET_COST_OBJ_CLASS: 1.0 
+    SET_COST_HOI: 2.0 
+  COEFFS:
+    BBOX_LOSS_COEF: 2.5
+    GIOU_LOSS_COEF: 1.0
+    OBJ_LOSS_COEF: 1.0
+    HOI_LOSS_COEF: 2.0
+  ALPHA_FOCAL_LOSS_HOI: 0.5
+  ALPHA_FOCAL_LOSS_OBJ: 0.25
+  COEF_CE_LOSS_OBJ: 0.1
+MODEL:
+  PIXEL_MEAN: [123.675, 116.280, 103.530]
+  PIXEL_STD: [58.395, 57.120, 57.375]       # for d2 only
+  POSITION_EMBEDDING: "sine"                # Position embedding type (sine, learned)
+  NAME: "SL-HOI"                             # Model name
+  BACKBONE:
+    NAME: "DINOv3"
+    NUM_FEATURE_LEVELS: 1
+  TRANSFORMER:
+    DIM_FEEDFORWARD: 2048
+    NHEADS: 8
+    DROPOUT: 0.1
+    ACTIVATION: "relu"
+    ENC_LAYERS: 2
+    INS_DEC_LAYERS: 3
+    NUM_QUERIES: 64
+  HOI:
+    HIDDEN_DIM: 256
+    DEEP_SUPERVISION: true
+  DINO:
+    WITH_DINO_LABEL: true
+    WITH_OBJ_DINO_LABEL: true 
+    DINOTXT_WEIGHTS: ""
+    BACKBONE_WEIGHTS: ""
+    BPE_PATH_OR_URL: ""
+    FREEZE: true
+    EMBED_DIM: 1024
+    LAYERS_TO_USE: []
+    N_WINDOWS_SQRT: 2
+    N_STORAGE_TOKENS: 4
+INPUT: # HICO-Det specific parameters
+  FORMAT: "RGB"
+  NUM_OBJ_CLASSES: 80
+  SUBJECT_CATEGORY_ID: 0
+  DATASET_FILE: "hico"
+  PATH: ""
+ZERO_SHOT:
+  TYPE: "default"       # default, rare_first, non_rare_first, unseen_object, unseen_verb
+  DEL_UNSEEN: false     # false for default, true for all other types
+  CLASSIFIER:
+    TRAIN: ""
+    EVAL: ""
+RUNTIME:
+  NUM_WORKERS: 4
