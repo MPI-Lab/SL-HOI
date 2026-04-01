@@ -69,8 +69,15 @@ DINOv3 pretrained weights are available at [facebookresearch/dinov3](https://git
 HOI classifier weights can also be generated using the provided scripts:
 
 ```bash
-python swig_offline_classifier.py
-python hico_offline_classifier.py
+python swig_offline_classifier.py \
+    --dinotxt_weights <path_to_dinov3_text_head_and_vision_head_weights> \
+    --backbone_weights <path_to_dinov3_backbone_weights> \
+    --bpe_path_or_url <path_or_url_to_bpe_vocab>
+
+python hico_offline_classifier.py \
+    --dinotxt_weights <path_to_dinov3_text_head_and_vision_head_weights> \
+    --backbone_weights <path_to_dinov3_backbone_weights> \
+    --bpe_path_or_url <path_or_url_to_bpe_vocab>
 ```
 
 By default, the classifier weights will be saved in `params`
