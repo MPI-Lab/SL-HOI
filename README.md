@@ -61,9 +61,10 @@ hico_20160224_det
 
 All model weights are available on HuggingFace: [Thatmakes11/SL-HOI-weights](https://huggingface.co/Thatmakes11/SL-HOI-weights)
 
-- `dinov3/` - DINOv3 ViT-L/16 pretrained weights, vision head, and text encoder
 - `params/` - Pre-computed HOI classifier weights (`swig/` and `hico/`)
 - `pretrained/` - Trained checkpoints (`swig/`, `hico/`, `hico_ov/`)
+
+DINOv3 pretrained weights are available at [facebookresearch/dinov3](https://github.com/facebookresearch/dinov3).
 
 HOI classifier weights can also be generated using the provided scripts:
 
