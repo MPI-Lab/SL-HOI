@@ -1,11 +1,9 @@
 # SL-HOI
-Implementation of Streamlined Open-Vocabulary Human-Object Interaction Detection (CVPR 2026)
+Implementation of [Streamlined Open-Vocabulary Human-Object Interaction Detection](https://arxiv.org/abs/2603.27500) (CVPR 2026)
 
 ## Overview
 
 In this paper, we present SL-HOI, a streamlined one-stage framework for open-vocabulary HOI detection built upon the DINOv3 model. We leverage the complementary strengths of DINOv3's backbone and vision head to effectively address both interactive human-object detection and open-vocabulary interaction classification tasks. Our design includes a novel two-step interaction classification process that bridges representation gaps and enhances feature utilization. Extensive experiments on two popular benchmarks demonstrate that SL-HOI achieves state-of-the-art performance in open-vocabulary HOI detection while maintaining a simple architecture with few trainable parameters.
-
-<!-- TODO -->
 
 ## Installation
 
@@ -23,12 +21,26 @@ A `requirements.txt` file will be provided later.
 ### Setup
 
 ```bash
-git clone https://github.com/your-repo/SL-HOI.git
+git clone https://github.com/MPI-Lab/SL-HOI.git
 cd SL-HOI
 pip install -r requirements.txt
 ```
 
 ## Data Preparation
+
+### SWIG-HOI
+
+SWIG-HOI dataset preparation follows [THID](https://github.com/scwangdyd/promting_hoi). Please refer to their documentation for download and setup instructions.
+
+```
+swig_hoi
+ |─ images_512
+ |─ annotations
+ |   |─ swig_train_1000.json
+ |   |─ swig_val_1000.json
+ |   |─ swig_trainval_1000.json
+ |   |─ swig_test_1000.json
+```
 
 ### HICO-DET
 
@@ -45,48 +57,22 @@ hico_20160224_det
  |   |─ corre_hico.npy
 ```
 
-### SWIG-HOI
-
-SWIG-HOI dataset preparation follows [THID](https://github.com/scwangdyd/promting_hoi). Please refer to their documentation for download and setup instructions.
-
-```
-swig_hoi
- |─ images_512
- |─ annotations
- |   |─ swig_train_1000.json
- |   |─ swig_val_1000.json
- |   |─ swig_trainval_1000.json
- |   |─ swig_test_1000.json
-```
-
 ## Model Weights
 
-### Pretrained Backbones
+All model weights are available on HuggingFace: [Thatmakes11/SL-HOI-weights](https://huggingface.co/Thatmakes11/SL-HOI-weights)
 
-Download the DINOv3 pretrained weights:
+- `dinov3/` - DINOv3 ViT-L/16 pretrained weights, vision head, and text encoder
+- `params/` - Pre-computed HOI classifier weights (`swig/` and `hico/`)
+- `pretrained/` - Trained checkpoints (`swig/`, `hico/`, `hico_ov/`)
 
-**Official weights:**
-- DINOv3: [facebookresearch/dinov3](https://github.com/facebookresearch/dinov3)
-
-**Our converted weights (coming soon):**
-- DINOv3 ViT-L/16 backbone
-- DINOv3-txt (Vision+Text encoder)
-
-### HOI Classifiers
-
-HOI classifier weights can be generated using the provided scripts:
+HOI classifier weights can also be generated using the provided scripts:
 
 ```bash
-# Generate HICO-DET classifiers
-python hico_offline_classifier.py
-
-# Generate SWIG-HOI classifiers
 python swig_offline_classifier.py
+python hico_offline_classifier.py
 ```
 
 By default, the classifier weights will be saved in `params`
-
-Pre-computed classifier weights will be made available for download (coming soon).
 
 ## Training
 
@@ -128,9 +114,11 @@ bash scripts/swig_eval.sh
 
 | Dataset | Setting | Unseen | Rare | Non-rare/ Seen | Full | Checkpoint |
 |---------|---------|--------|------|----------------|------|------------|
-| SWIG-HOI | - | 19.04 | 24.69 | 30.62 | 24.67 | (coming soon) |
-| HICO-DET | Default | - | 47.71 | 44.25 | 45.05 | (coming soon) |
-| HICO-DET | Zero-shot | 40.53 | - | 42.99 | 42.49 | (coming soon) |
+| SWIG-HOI | - | 19.04 | 24.69 | 30.62 | 24.67 | `pretrained/swig/pytorch_model.bin` |
+| HICO-DET | Default | - | 47.71 | 44.25 | 45.05 | `pretrained/hico/pytorch_model.bin` |
+| HICO-DET | Zero-shot | 40.53 | - | 42.99 | 42.49 | `pretrained/hico_ov/pytorch_model.bin` |
+
+Checkpoints are available in the [HuggingFace repository](https://huggingface.co/Thatmakes11/SL-HOI-weights).
 
 ## Citation
 
